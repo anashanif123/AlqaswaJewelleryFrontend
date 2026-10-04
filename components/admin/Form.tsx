@@ -81,7 +81,7 @@ function Images({ value, onChange }: { value: string[]; onChange: (v: string[]) 
     <div className="imgs">
       {value.map((u, i) => (
         <figure key={u} className="imgs__item">
-          <img src={imgUrl(u)} alt="" />
+          <img src={imgUrl(u, 200)} alt="" />
           <figcaption>
             {i > 0 && <button type="button" onClick={() => move(i, -1)} aria-label="Move left">←</button>}
             <button type="button" onClick={() => onChange(value.filter((x) => x !== u))} aria-label="Remove">×</button>

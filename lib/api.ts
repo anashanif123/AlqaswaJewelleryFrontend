@@ -23,7 +23,12 @@ export type Settings = {
 };
 export type Paged<T> = { items: T[]; total: number; page: number; pages: number };
 
-export const imgUrl = (u?: string) => (!u ? "" : /^https?:/.test(u) ? u : API_URL + u);
+/** Full image URL. Cloudinary photos are served resized, as WebP/AVIF with automatic quality. */
+export const imgUrl = (u?: string, w = 1000) => {
+  if (!u) return "";
+  if (u.includes("res.cloudinary.com") && u.includes("/upload/v")) return u.replace("/upload/", `/upload/f_auto,q_auto,c_limit,w_${w}/`);
+  return /^https?:/.test(u) ? u : API_URL + u;
+};
 
 const TOKEN_KEY = "aq_token";
 export const getToken = () => {

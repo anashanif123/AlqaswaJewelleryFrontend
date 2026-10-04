@@ -35,7 +35,7 @@ export default function ProductBuy({ p }: { p: Product }) {
           <div className="pdp__thumbs">
             {p.images.map((src, i) => (
               <button key={src} className={`pdp__thumb ${i === img ? "pdp__thumb--on" : ""}`} onClick={() => setImg(i)} aria-label={`Image ${i + 1}`}>
-                <img src={imgUrl(src)} alt="" />
+                <img src={imgUrl(src, 200)} alt="" />
               </button>
             ))}
           </div>
