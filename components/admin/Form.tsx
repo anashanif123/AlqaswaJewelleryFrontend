@@ -60,10 +60,16 @@ function Images({ value, onChange }: { value: string[]; onChange: (v: string[]) 
   const upload = async (files: FileList | null) => {
     if (!files?.length) return;
     setBusy(true);
-    const form = new FormData();
-    [...files].forEach((f) => form.append("images", f));
-    try { onChange([...value, ...(await api<{ urls: string[] }>("/admin/upload", { form })).urls]); }
-    catch (e) { alert((e as Error).message); }
+    // One request per photo: hosting limits request size (~4.5 MB on Vercel)
+    const urls: string[] = [];
+    for (const f of [...files]) {
+      if (f.size > 4 * 1024 * 1024) { alert(`${f.name} is over 4 MB — please use a smaller photo`); continue; }
+      const form = new FormData();
+      form.append("images", f);
+      try { urls.push(...(await api<{ urls: string[] }>("/admin/upload", { form })).urls); }
+      catch (e) { alert(`${f.name}: ${(e as Error).message}`); }
+    }
+    onChange([...value, ...urls]);
     setBusy(false);
   };
   const move = (i: number, d: number) => {
