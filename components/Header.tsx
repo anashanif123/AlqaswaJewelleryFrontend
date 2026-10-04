@@ -50,8 +50,8 @@ export default function Header() {
         <button className="icon-btn menu-btn" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(!open)}>
           <span /><span />
         </button>
-        <Link href="/" aria-label="Al Qaswa home"><Logo light /></Link>
-        <nav className={`nav ${open ? "nav--open" : ""} ${settings?.announcement ? "" : "nav--top"}`} aria-label="Main">
+        <Link href="/" aria-label="Al Qaswa home"><Logo /></Link>
+        <nav className={`nav ${open ? "nav--open" : ""}`} aria-label="Main">
           {links.map((l) => (
             <Link key={l.label} href={l.href} onClick={() => setOpen(false)}>{l.label}</Link>
           ))}

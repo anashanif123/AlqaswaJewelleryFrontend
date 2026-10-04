@@ -6,7 +6,7 @@ import { useStore } from "@/lib/store";
 import "./admin.css";
 
 const nav = [
-  ["", "Dashboard"], ["orders", "Orders"], ["products", "Products"], ["categories", "Categories"], ["coupons", "Discounts"],
+  ["", "Dashboard"], ["orders", "Orders"], ["carousel", "Home carousel"], ["products", "Products"], ["categories", "Categories"], ["coupons", "Discounts"],
   ["customers", "Customers"], ["reviews", "Reviews"], ["messages", "Messages"], ["subscribers", "Subscribers"], ["settings", "Settings"],
 ];
 

@@ -15,13 +15,13 @@ const fields: Field[] = [
   { name: "metal", label: "Metal & stones", placeholder: "18k gold, lab diamond" },
   { name: "weight", label: "Weight", placeholder: "6.2 g" },
   { name: "tag", label: "Badge", placeholder: "New, Bestseller…" },
-  { name: "tone", label: "Card colour", type: "select", options: [["emerald", "Emerald"], ["rose", "Rose"], ["night", "Night"]] },
+  { name: "tone", label: "Card colour", type: "select", options: [["emerald", "Emerald"], ["rose", "Rose"], ["night", "Night"]], initial: "emerald" },
   { name: "sizes", label: "Sizes (comma separated)", type: "tags", placeholder: "5, 6, 7, 8", wide: true },
   { name: "description", label: "Description", type: "textarea" },
   { name: "images", label: "Photos (first is the main photo)", type: "images" },
   { name: "slug", label: "URL slug", hint: "Leave empty to generate from the name" },
   { name: "featured", label: "Show on home page", type: "checkbox" },
-  { name: "active", label: "Visible in store", type: "checkbox" },
+  { name: "active", label: "Visible in store", type: "checkbox", initial: true },
 ];
 
 function BulkDiscount({ reload }: { reload: () => void }) {

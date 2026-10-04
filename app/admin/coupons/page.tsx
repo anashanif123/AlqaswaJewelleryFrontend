@@ -8,7 +8,7 @@ type Coupon = { _id: string; code: string; description?: string; type: "percent"
 
 const fields: Field[] = [
   { name: "code", label: "Code", required: true, placeholder: "EID25" },
-  { name: "type", label: "Type", type: "select", required: true, options: [["percent", "Percent off"], ["fixed", "Fixed amount off (Rs)"]] },
+  { name: "type", label: "Type", type: "select", required: true, options: [["percent", "Percent off"], ["fixed", "Fixed amount off (Rs)"]], initial: "percent" },
   { name: "value", label: "Value", type: "number", required: true },
   { name: "minOrder", label: "Minimum order (Rs)", type: "number" },
   { name: "maxDiscount", label: "Max discount (Rs)", type: "number", nullable: true, hint: "Cap for percent codes" },
@@ -18,7 +18,7 @@ const fields: Field[] = [
   { name: "expiresAt", label: "Expires", type: "date" },
   { name: "description", label: "Description", wide: true },
   { name: "categories", label: "Only for these categories (none = whole bag)", type: "multiselect", source: "/admin/categories?limit=200" },
-  { name: "active", label: "Active", type: "checkbox" },
+  { name: "active", label: "Active", type: "checkbox", initial: true },
 ];
 
 export default function CouponsAdmin() {

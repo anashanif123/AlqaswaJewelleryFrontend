@@ -3,8 +3,7 @@
 .bag--bump { animation: bump .5s; }
 @keyframes bump { 40% { transform: scale(1.18); } }
 .searchbar { display: flex; gap: 10px; padding: 0 0 16px; }
-.searchbar input { flex: 1; min-width: 0; padding: 12px 20px; border-radius: 999px; border: 1px solid rgba(235, 212, 154, .35); background: rgba(246, 247, 243, .08); color: var(--paper); font: inherit; }
-.searchbar input::placeholder { color: rgba(246, 247, 243, .55); }
+.searchbar input { flex: 1; min-width: 0; padding: 12px 20px; border-radius: 999px; border: 1px solid #d6ccbb; background: var(--ivory); color: var(--ink); font: inherit; }
 .searchbar input:focus { outline: none; border-color: var(--gold); }
 
 .btn:disabled, .btn--disabled { opacity: .5; pointer-events: none; }
@@ -19,18 +18,18 @@
 .card__body h3 a:hover { color: var(--malachite); }
 .card__wish--on svg { fill: var(--gold); stroke: var(--gold-lo); }
 
-/* Page head: a compact version of the home hero */
-.phead { position: relative; overflow: hidden; color: var(--paper); padding: 150px 0 56px;
-  background: radial-gradient(60% 120% at 80% 30%, var(--malachite) 0%, var(--emerald) 45%, var(--ink) 100%); }
-.phead::after { content: ""; position: absolute; right: 6%; bottom: -60px; width: 220px; height: 260px; border-radius: var(--radius-arch); border: 1px solid rgba(235, 212, 154, .22); }
+/* Page head: warm sand band with a gold arch */
+.phead { position: relative; overflow: hidden; color: var(--ink); padding: 64px 0 56px; margin: 12px 16px 0; border-radius: 28px;
+  background: radial-gradient(60% 140% at 85% 20%, #fffdf8 0%, var(--sand) 70%); }
+.phead::after { content: ""; position: absolute; right: 7%; bottom: -70px; width: 220px; height: 270px; border-radius: var(--radius-arch); border: 1px solid rgba(200, 164, 100, .55); outline: 1px solid rgba(200, 164, 100, .25); outline-offset: 12px; }
 .phead__inner { position: relative; z-index: 1; }
 .phead h1 { font-size: clamp(2.4rem, 5vw, 4rem); max-width: 18ch; }
-.phead .hero__kicker { margin: 0 0 10px; }
-.phead .hero__lead { margin: 16px 0 0; }
-.crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; font-size: .85rem; color: rgba(246, 247, 243, .6); }
+.phead .hero__kicker { margin: 0 0 10px; color: var(--gold-lo); letter-spacing: .08em; }
+.phead .hero__lead { margin: 16px 0 0; color: var(--muted); max-width: 52ch; }
+.crumbs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; font-size: .85rem; color: var(--muted); }
 .crumbs span::before { content: "/"; margin-right: 8px; opacity: .5; }
-.crumbs a:hover { color: var(--gold-hi); }
-.link-gold { color: var(--gold-hi); text-decoration: underline; text-underline-offset: 3px; }
+.crumbs a:hover { color: var(--gold-lo); }
+.link-gold { color: var(--gold-lo); text-decoration: underline; text-underline-offset: 3px; }
 
 .page { padding: 60px 0 100px; }
 .narrow { max-width: 560px; }
@@ -61,7 +60,7 @@ textarea.input { resize: vertical; }
 .fld-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .fld--wide { grid-column: 1 / -1; }
 .fld-grid > .btn { justify-self: start; }
-.box { margin: 0; padding: 24px; border: 1px solid var(--nacre); border-radius: 14px; background: #fff; }
+.box { margin: 0; padding: 24px; border: 1px solid var(--nacre); border-radius: 18px; background: var(--ivory); }
 .box legend { padding: 0 6px; font-family: var(--display); font-size: 1.4rem; }
 fieldset.box { display: grid; gap: 16px; }
 .box h3 { font-size: 1.4rem; margin-bottom: 10px; }
@@ -125,7 +124,7 @@ fieldset.box { display: grid; gap: 16px; }
 .line__info h3 { font-size: 1.3rem; }
 .line__info p { margin: 2px 0 10px; }
 .line__end { display: grid; justify-items: end; gap: 8px; }
-.summary { padding: 28px; border-radius: 14px; background: var(--nacre); display: grid; gap: 16px; }
+.summary { padding: 28px; border-radius: 20px; background: var(--sand); display: grid; gap: 16px; }
 .summary h3 { font-size: 1.6rem; }
 .summary p { margin: 0; }
 .summary dl { display: grid; grid-template-columns: 1fr auto; gap: 10px; margin: 0; }
@@ -176,8 +175,7 @@ fieldset.box { display: grid; gap: 16px; }
 @media (max-width: 760px) {
   .hide-sm { display: none; }
   .show-sm { display: block; }
-  .nav--top { inset: 64px 0 auto; }
-  .phead { padding: 120px 0 40px; }
+  .phead { padding: 40px 0 36px; margin: 8px 8px 0; border-radius: 20px; }
   .phead::after { display: none; }
   .fld-grid { grid-template-columns: 1fr; }
   .line { grid-template-columns: 72px 1fr; }

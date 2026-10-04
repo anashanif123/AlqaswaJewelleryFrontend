@@ -1,49 +1,18 @@
 import Link from "next/link";
-import type { Category } from "@/lib/api";
+import { imgUrl, type Category } from "@/lib/api";
 import { Jewel, Logo } from "./Art";
 import NewsletterForm from "./NewsletterForm";
 
-export function Hero() {
-  return (
-    <section className="hero">
-      <div className="hero__inner wrap">
-        <div className="hero__copy">
-          <p className="hero__kicker">The bridal &amp; everyday edit, 2026</p>
-          <h1>Jewellery made to be handed down</h1>
-          <p className="hero__lead">
-            Hallmarked gold, honest prices and designs drawn from the arches and crescents of old Lahore.
-            Find your piece in a few taps.
-          </p>
-          <div className="hero__cta">
-            <a href="#rings" className="btn">Shop the collection</a>
-            <Link href="/bridal" className="btn btn--ghost">Book a bridal visit</Link>
-          </div>
-        </div>
-
-        <div className="hero__stage" aria-hidden="true">
-          <div className="arch arch--outer" />
-          <div className="arch arch--inner">
-            <Jewel kind="necklace" className="hero__piece" />
-            <span className="shine" />
-          </div>
-          <div className="orbit">
-            {(["ring", "earring", "pendant", "bangle"] as const).map((k) => (
-              <span key={k} className="orbit__item"><Jewel kind={k} /></span>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="hero__word" aria-hidden="true">Al Qaswa</div>
-    </section>
-  );
-}
-
 export function Categories({ cats }: { cats: Category[] }) {
+  const list = cats.slice(0, 6);
   return (
-    <section className="cats wrap" aria-label="Shop by type">
-      {cats.slice(0, 5).map((c) => (
+    <section className="cats wrap" aria-label="Shop by type" style={{ "--n": list.length } as React.CSSProperties}>
+      <div className="cats__head"><h2>Shop by piece</h2><Link href="/shop" className="link">View all</Link></div>
+      {list.map((c) => (
         <Link key={c._id} href={`/shop?category=${c.slug}`} className="cat">
-          <span className="cat__arch"><Jewel kind={c.kind} /></span>
+          <span className={`cat__arch ${c.image ? "cat__arch--photo" : ""}`}>
+            {c.image ? <img src={imgUrl(c.image, 500)} alt="" loading="lazy" /> : <Jewel kind={c.kind} />}
+          </span>
           <span className="cat__name">{c.name}</span>
           <span className="cat__count">{c.count} designs</span>
         </Link>

@@ -5,3 +5,6 @@ node_modules
 
 # Backend has its own repo (AlqaswaBackend)
 backend/
+
+# Promo videos (large files, kept out of the repo)
+*.mp4

@@ -21,6 +21,10 @@ export type Settings = {
   storeName: string; announcement: string; shippingFee: number; freeShippingOver: number; whatsapp: string; phone: string;
   email: string; address: string; bankDetails: string; codEnabled: boolean; bankEnabled: boolean;
 };
+export type Slide = {
+  _id: string; image?: string; mobileImage?: string; kicker?: string; title: string; subtitle?: string;
+  ctaLabel?: string; ctaLink?: string; kind?: Kind; tone?: "emerald" | "rose" | "sand"; sort?: number; active?: boolean;
+};
 export type Paged<T> = { items: T[]; total: number; page: number; pages: number };
 
 /** Full image URL. Cloudinary photos are served resized, as WebP/AVIF with automatic quality. */

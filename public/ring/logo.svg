@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 512">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EBD49A"/><stop offset=".5" stop-color="#C8A464"/><stop offset="1" stop-color="#8C6A2E"/></linearGradient></defs>
+<g id="icon"><circle cx="362" cy="276" r="36" fill="none" stroke="url(#g)" stroke-width="17"/><path d="M362 214 L376 232 L362 250 L348 232 Z" fill="url(#g)"/></g>
+<g id="wordmark" fill="#16392F" font-family="Jost, Futura, 'Century Gothic', sans-serif" font-weight="600" font-size="130" letter-spacing="-2"><text x="210" y="320">al</text><rect x="390" y="236" width="17" height="112"/><text x="420" y="320">aswa</text></g>
+<g id="tagline"><text x="702" y="388" text-anchor="end" fill="#16392F" font-family="Jost, Futura, 'Century Gothic', sans-serif" font-size="22" letter-spacing="8">JEWELLERY</text></g>
+</svg>

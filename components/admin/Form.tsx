@@ -4,10 +4,10 @@ import { api, imgUrl } from "@/lib/api";
 
 export type Field = {
   name: string; label: string;
-  type?: "text" | "number" | "textarea" | "checkbox" | "select" | "multiselect" | "tags" | "images" | "date" | "password";
+  type?: "text" | "number" | "textarea" | "checkbox" | "select" | "multiselect" | "tags" | "images" | "image" | "date" | "password";
   options?: [string, string][]; // [value, label]
   source?: string; // API path returning { items } for select options (value=_id, label=name)
-  required?: boolean; nullable?: boolean; wide?: boolean; hint?: string; placeholder?: string;
+  required?: boolean; nullable?: boolean; initial?: any; wide?: boolean; hint?: string; placeholder?: string;
 };
 
 const toInput = (f: Field, v: any) => {
@@ -96,7 +96,7 @@ function Images({ value, onChange }: { value: string[]; onChange: (v: string[]) 
 export default function Form({ fields, initial, onSubmit, submitLabel = "Save" }: {
   fields: Field[]; initial?: Record<string, any> | null; onSubmit: (body: Record<string, any>) => Promise<void>; submitLabel?: string;
 }) {
-  const [vals, setVals] = useState<Record<string, any>>(() => Object.fromEntries(fields.map((f) => [f.name, toInput(f, initial?.[f.name])])));
+  const [vals, setVals] = useState<Record<string, any>>(() => Object.fromEntries(fields.map((f) => [f.name, toInput(f, initial ? initial[f.name] : f.initial)])));
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const set = (k: string, v: any) => setVals((s) => ({ ...s, [k]: v }));
@@ -115,13 +115,14 @@ export default function Form({ fields, initial, onSubmit, submitLabel = "Save" }
         const v = vals[f.name];
         const common = { required: f.required, placeholder: f.placeholder, className: "input" };
         return (
-          <label key={f.name} className={`fld ${f.wide || ["textarea", "images", "multiselect"].includes(f.type || "") ? "fld--wide" : ""} ${f.type === "checkbox" ? "fld--check" : ""}`}>
+          <label key={f.name} className={`fld ${f.wide || ["textarea", "images", "image", "multiselect"].includes(f.type || "") ? "fld--wide" : ""} ${f.type === "checkbox" ? "fld--check" : ""}`}>
             {f.type === "checkbox" ? (
               <span className="toggle"><input type="checkbox" checked={!!v} onChange={(e) => set(f.name, e.target.checked)} /> {f.label}</span>
             ) : <span>{f.label}</span>}
             {f.type === "textarea" && <textarea {...common} rows={4} value={v} onChange={(e) => set(f.name, e.target.value)} />}
             {(f.type === "select" || f.type === "multiselect") && <Options f={f} value={v} onChange={(x) => set(f.name, x)} />}
             {f.type === "images" && <Images value={v} onChange={(x) => set(f.name, x)} />}
+            {f.type === "image" && <Images value={v ? [v] : []} onChange={(x) => set(f.name, x[x.length - 1] || "")} />}
             {f.type === "tags" && <input {...common} value={v.join(", ")} onChange={(e) => set(f.name, e.target.value.split(",").map((s) => s.trim()).filter(Boolean))} />}
             {(!f.type || ["text", "number", "date", "password"].includes(f.type)) && (
               <input {...common} type={f.type || "text"} step={f.type === "number" ? "any" : undefined} value={v} onChange={(e) => set(f.name, e.target.value)} />
