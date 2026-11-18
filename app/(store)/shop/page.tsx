@@ -29,7 +29,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
 
   return (
     <>
-      <PageHead title={title} kicker={cat?.description} />
+      <PageHead title={title} />
 
       <section className="wrap listing">
         <ShopFilters categories={cats.items} total={res?.total ?? 0} />
