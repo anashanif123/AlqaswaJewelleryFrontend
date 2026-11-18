@@ -39,6 +39,17 @@ function deliverBy() {
   return d.toLocaleDateString("en-PK", { weekday: "short", month: "long", day: "numeric" });
 }
 
+/** Description as typed in admin: one line per line, and WhatsApp-style *bold* shown as bold. */
+function Rich({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/\n+/).map((line) => line.trim()).filter(Boolean).map((line, i) => (
+        <p key={i}>{line.split(/(\*[^*]+\*)/g).map((part, j) => /^\*[^*]+\*$/.test(part) ? <b key={j}>{part.slice(1, -1).trim()}</b> : part.replace(/\*/g, ""))}</p>
+      ))}
+    </>
+  );
+}
+
 function Accordion({ title, icon, children }: { title: string; icon: string; children: React.ReactNode }) {
   return (
     <details className="acc">
@@ -162,7 +173,7 @@ export default function ProductBuy({ p }: { p: Product }) {
 
         {(p.description || p.metal || p.sku) && (
           <div className="pdp__desc">
-            {p.description?.split(/\n\s*\n/).map((t, i) => <p key={i}>{t}</p>)}
+            {p.description && <Rich text={p.description} />}
             {(p.metal || p.weight || p.sku) && (
               <ul>
                 {p.metal && <li><b>Material:</b> {p.metal}</li>}

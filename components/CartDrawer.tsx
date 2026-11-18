@@ -23,10 +23,10 @@ export default function CartDrawer() {
   const left = free - subtotal;
 
   return (
-    <div className={`drawer ${drawer ? "drawer--open" : ""}`} aria-hidden={!drawer}>
-      <button className="drawer__shade" aria-label="Close cart" tabIndex={-1} onClick={() => setDrawer(false)} />
-      <aside className="drawer__panel" role="dialog" aria-modal="true" aria-label="Your cart">
-        <div className="drawer__head">
+    <div className={`cdrawer ${drawer ? "cdrawer--open" : ""}`} aria-hidden={!drawer}>
+      <button className="cdrawer__shade" aria-label="Close cart" tabIndex={-1} onClick={() => setDrawer(false)} />
+      <aside className="cdrawer__panel" role="dialog" aria-modal="true" aria-label="Your cart">
+        <div className="cdrawer__head">
           <h2>Your cart</h2>
           <button className="icon-btn" aria-label="Close" onClick={() => setDrawer(false)}>
             <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -34,20 +34,20 @@ export default function CartDrawer() {
         </div>
 
         {cart.length === 0 ? (
-          <div className="drawer__empty">
+          <div className="cdrawer__empty">
             <h3>Your cart is empty</h3>
             <button className="btn" onClick={() => setDrawer(false)}>Continue shopping</button>
           </div>
         ) : (
           <>
             {free > 0 && (
-              <p className="drawer__free">
+              <p className="cdrawer__free">
                 {left > 0 ? <>Add <b>{formatPrice(left)}</b> more for <b>free shipping</b></> : <>You get <b>free shipping</b> on this order</>}
-                <span className="drawer__meter"><span style={{ width: `${Math.min(100, (subtotal / free) * 100)}%` }} /></span>
+                <span className="cdrawer__meter"><span style={{ width: `${Math.min(100, (subtotal / free) * 100)}%` }} /></span>
               </p>
             )}
-            <div className="drawer__cols"><span>Product</span><span>Total</span></div>
-            <ul className="drawer__lines">
+            <div className="cdrawer__cols"><span>Product</span><span>Total</span></div>
+            <ul className="cdrawer__lines">
               {cart.map((l) => (
                 <li key={l.id + (l.size || "")} className="dline">
                   <Link href={`/product/${l.slug}`} className="dline__media">
@@ -72,8 +72,8 @@ export default function CartDrawer() {
                 </li>
               ))}
             </ul>
-            <div className="drawer__foot">
-              <div className="drawer__sum"><span>Estimated total</span><b>{formatPrice(subtotal)} PKR</b></div>
+            <div className="cdrawer__foot">
+              <div className="cdrawer__sum"><span>Estimated total</span><b>{formatPrice(subtotal)} PKR</b></div>
               <p className="muted small">Discounts and delivery are worked out at checkout.</p>
               <Link href="/checkout" className="btn btn--block">Check out</Link>
               <Link href="/cart" className="linkish center">View cart</Link>

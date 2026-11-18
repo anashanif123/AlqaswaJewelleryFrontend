@@ -211,19 +211,19 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
 .footer__legal p { margin: 0; }
 
 /* ---------- Cart drawer ---------- */
-.drawer { position: fixed; inset: 0; z-index: 100; visibility: hidden; }
-.drawer--open { visibility: visible; }
-.drawer__shade { position: absolute; inset: 0; width: 100%; border: 0; background: rgba(18, 18, 18, .5); opacity: 0; transition: opacity .3s; cursor: default; }
-.drawer--open .drawer__shade { opacity: 1; }
-.drawer__panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); display: flex; flex-direction: column; background: #fff; transform: translateX(100%); transition: transform .3s ease; }
-.drawer--open .drawer__panel { transform: none; }
-.drawer__head { display: flex; justify-content: space-between; align-items: center; padding: 18px 12px 10px 24px; }
-.drawer__head h2 { font-size: 1.45rem; }
-.drawer__free { margin: 0 24px 12px; font-size: .85rem; }
-.drawer__meter { display: block; height: 4px; margin-top: 8px; border-radius: 2px; background: var(--line); overflow: hidden; }
-.drawer__meter span { display: block; height: 100%; background: var(--maroon); transition: width .4s; }
-.drawer__cols { display: flex; justify-content: space-between; margin: 0 24px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: .7rem; letter-spacing: .1rem; text-transform: uppercase; color: var(--muted); }
-.drawer__lines { flex: 1; overflow-y: auto; list-style: none; margin: 0; padding: 0 24px; }
+.cdrawer { position: fixed; inset: 0; z-index: 100; visibility: hidden; }
+.cdrawer--open { visibility: visible; }
+.cdrawer__shade { position: absolute; inset: 0; width: 100%; border: 0; background: rgba(18, 18, 18, .5); opacity: 0; transition: opacity .3s; cursor: default; }
+.cdrawer--open .cdrawer__shade { opacity: 1; }
+.cdrawer__panel { position: absolute; top: 0; right: 0; bottom: 0; width: min(400px, 100%); display: flex; flex-direction: column; background: #fff; transform: translateX(100%); transition: transform .3s ease; }
+.cdrawer--open .cdrawer__panel { transform: none; }
+.cdrawer__head { display: flex; justify-content: space-between; align-items: center; padding: 18px 12px 10px 24px; }
+.cdrawer__head h2 { font-size: 1.45rem; }
+.cdrawer__free { margin: 0 24px 12px; font-size: .85rem; }
+.cdrawer__meter { display: block; height: 4px; margin-top: 8px; border-radius: 2px; background: var(--line); overflow: hidden; }
+.cdrawer__meter span { display: block; height: 100%; background: var(--maroon); transition: width .4s; }
+.cdrawer__cols { display: flex; justify-content: space-between; margin: 0 24px; padding-bottom: 10px; border-bottom: 1px solid var(--line); font-size: .7rem; letter-spacing: .1rem; text-transform: uppercase; color: var(--muted); }
+.cdrawer__lines { flex: 1; overflow-y: auto; list-style: none; margin: 0; padding: 0 24px; }
 .dline { display: grid; grid-template-columns: 96px 1fr auto; gap: 16px; padding: 20px 0; }
 .dline__media { position: relative; display: grid; place-items: center; aspect-ratio: 1; padding: 14%; background: var(--soft); overflow: hidden; }
 .dline__media .media-img { position: absolute; inset: 0; }
@@ -234,12 +234,12 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.5rem); }
 .dline__row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
 .dline__del svg { width: 18px; }
 .dline__total { font-size: .95rem; }
-.drawer__foot { display: grid; gap: 10px; padding: 18px 24px 24px; border-top: 1px solid var(--line); }
-.drawer__sum { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.05rem; }
-.drawer__sum b { font-weight: 400; }
-.drawer__foot p { margin: 0; }
-.drawer__empty { flex: 1; display: grid; place-content: center; justify-items: center; gap: 20px; padding: 24px; text-align: center; }
-.drawer__empty h3 { font-size: 1.6rem; }
+.cdrawer__foot { display: grid; gap: 10px; padding: 18px 24px 24px; border-top: 1px solid var(--line); }
+.cdrawer__sum { display: flex; justify-content: space-between; align-items: baseline; font-size: 1.05rem; }
+.cdrawer__sum b { font-weight: 400; }
+.cdrawer__foot p { margin: 0; }
+.cdrawer__empty { flex: 1; display: grid; place-content: center; justify-items: center; gap: 20px; padding: 24px; text-align: center; }
+.cdrawer__empty h3 { font-size: 1.6rem; }
 
 .qty { display: inline-flex; align-items: center; border: 1px solid var(--text); border-radius: 8px; }
 .qty button { width: 44px; height: 44px; border: 0; background: none; font-size: 1.1rem; }

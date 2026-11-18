@@ -35,9 +35,6 @@ export default function OrderPage({ params }: { params: Promise<{ number: string
         {order ? <OrderView o={order} /> : error ? (
           <div className="empty"><h2>We could not find that order</h2><p>Check the number and the phone used at checkout.</p><Link className="btn" href="/track">Track an order</Link></div>
         ) : <p className="muted">Loading order…</p>}
-        {fresh && order?.paymentMethod === "bank" && settings?.bankDetails && (
-          <div className="box"><h3>Bank transfer details</h3><p className="pre">{settings.bankDetails}</p><p className="muted">Use {order.number} as the reference.</p></div>
-        )}
       </section>
     </>
   );

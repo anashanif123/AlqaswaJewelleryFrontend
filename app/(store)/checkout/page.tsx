@@ -12,12 +12,11 @@ const provinces = ["Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan", "Isla
 const blank: Address = { name: "", phone: "", line1: "", line2: "", city: "", province: "Punjab", postalCode: "" };
 
 export default function CheckoutPage() {
-  const { cart, user, settings, clear, ready, refreshUser } = useStore();
+  const { cart, user, clear, ready, refreshUser } = useStore();
   const router = useRouter();
   const [coupon, setCoupon] = useState("");
   const [addr, setAddr] = useState<Address>(blank);
   const [email, setEmail] = useState("");
-  const [pay, setPay] = useState<"cod" | "bank">("cod");
   const [note, setNote] = useState("");
   const [save, setSave] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -30,7 +29,6 @@ export default function CheckoutPage() {
     setEmail(user.email);
     setAddr((a) => (a.name ? a : user.addresses[0] ? { ...blank, ...user.addresses[0] } : { ...a, name: user.name, phone: user.phone || "" }));
   }, [user]);
-  useEffect(() => { if (settings && !settings.codEnabled) setPay("bank"); }, [settings]);
   useEffect(() => { if (ready && !cart.length && !busy) router.replace("/cart"); }, [ready, cart.length, busy, router]);
 
   const field = (k: keyof Address) => ({
@@ -44,7 +42,7 @@ export default function CheckoutPage() {
     try {
       const { _id, label, ...shippingAddress } = addr;
       const { order } = await api<{ order: Order }>("/orders", {
-        body: { items: cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size })), coupon: coupon || undefined, email: email || undefined, paymentMethod: pay, note: note || undefined, shippingAddress },
+        body: { items: cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size })), coupon: coupon || undefined, email: email || undefined, paymentMethod: "cod", note: note || undefined, shippingAddress },
       });
       if (user && save && !_id && !user.addresses.some((a) => a.line1 === addr.line1)) {
         await api("/auth/me/addresses", { body: { ...shippingAddress, label: "Home" } }).then(refreshUser).catch(() => {});
@@ -94,20 +92,9 @@ export default function CheckoutPage() {
             </fieldset>
 
             <fieldset className="box">
-              <legend>Payment</legend>
-              {settings?.codEnabled !== false && (
-                <label className={`pay ${pay === "cod" ? "pay--on" : ""}`}>
-                  <input type="radio" name="pay" checked={pay === "cod"} onChange={() => setPay("cod")} />
-                  <span><strong>Cash on delivery</strong><small>Pay when your parcel arrives.</small></span>
-                </label>
-              )}
-              {settings?.bankEnabled !== false && (
-                <label className={`pay ${pay === "bank" ? "pay--on" : ""}`}>
-                  <input type="radio" name="pay" checked={pay === "bank"} onChange={() => setPay("bank")} />
-                  <span><strong>Bank transfer</strong><small>{settings?.bankDetails || "We will send account details after you order."}</small></span>
-                </label>
-              )}
-              <label className="fld"><span>Order note (optional)</span><textarea className="input" rows={2} maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Gift wrap, engraving, delivery time…" /></label>
+              <legend>Order note</legend>
+              <label className="fld"><span>Anything we should know? (optional)</span><textarea className="input" rows={2} maxLength={500} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Colour preference, delivery time…" /></label>
+              <p className="muted small">Pay cash when your order arrives. We will call you to confirm the order.</p>
             </fieldset>
           </div>
 

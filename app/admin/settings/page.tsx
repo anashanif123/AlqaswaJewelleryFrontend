@@ -6,16 +6,13 @@ import { useStore } from "@/lib/store";
 
 const fields: Field[] = [
   { name: "storeName", label: "Store name" },
-  { name: "announcement", label: "Top announcement bar", hint: "Leave empty to hide the bar" },
+  { name: "announcement", label: "Top scrolling offer bar", hint: "Separate messages with | e.g. Flat 15% off | Free shipping over Rs 4,000. Leave empty for the default messages." },
   { name: "shippingFee", label: "Delivery fee (Rs)", type: "number" },
   { name: "freeShippingOver", label: "Free delivery over (Rs)", type: "number", hint: "0 = no free delivery" },
   { name: "phone", label: "Phone" },
   { name: "whatsapp", label: "WhatsApp number", hint: "Digits only, with country code: 923001234567" },
   { name: "email", label: "Email" },
-  { name: "address", label: "Studio address" },
-  { name: "bankDetails", label: "Bank transfer details (shown at checkout)", type: "textarea" },
-  { name: "codEnabled", label: "Allow cash on delivery", type: "checkbox" },
-  { name: "bankEnabled", label: "Allow bank transfer", type: "checkbox" },
+  { name: "address", label: "Address" },
 ];
 
 export default function SettingsAdmin() {

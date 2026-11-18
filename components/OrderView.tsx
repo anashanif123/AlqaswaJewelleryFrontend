@@ -45,7 +45,7 @@ export default function OrderView({ o }: { o: Order }) {
       <aside>
         <div className="summary">
           <h3>Order {o.number}</h3>
-          <p className="muted small">Placed {dateFmt(o.createdAt)} · {o.paymentMethod === "cod" ? "Cash on delivery" : "Bank transfer"} · {o.paymentStatus}</p>
+          <p className="muted small">Placed {dateFmt(o.createdAt)}</p>
           <dl>
             <dt>Subtotal</dt><dd>{formatPrice(o.subtotal)}</dd>
             {o.discount > 0 && <><dt>Discount {o.couponCode && <em>({o.couponCode})</em>}</dt><dd className="save">− {formatPrice(o.discount)}</dd></>}

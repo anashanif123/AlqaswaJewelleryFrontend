@@ -144,7 +144,7 @@ fieldset.box { display: grid; gap: 16px; }
 .feats svg { flex: none; width: 20px; fill: var(--text); }
 .feats svg path { fill: none; stroke: #fff; stroke-width: 2; }
 .pdp__desc { font-size: .92rem; color: rgba(18, 18, 18, .8); }
-.pdp__desc p { margin: 0 0 10px; }
+.pdp__desc p { margin: 0 0 6px; }
 .pdp__desc ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
 .accs { border-top: 1px solid var(--line); }
 .acc { border-bottom: 1px solid var(--line); }

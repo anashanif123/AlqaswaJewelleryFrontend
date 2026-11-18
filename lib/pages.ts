@@ -10,7 +10,7 @@ export const features = [
 
 export const faqs = [
   { q: "Is this real gold?", a: "No. Our pieces are premium artificial jewellery with gold, silver or antique plating and zircon, kundan or pearl stones." },
-  { q: "Do you offer cash on delivery?", a: "Yes, cash on delivery is available all over Pakistan. You can also pay by bank transfer at checkout." },
+  { q: "Do you offer cash on delivery?", a: "Yes, cash on delivery is available all over Pakistan." },
   { q: "How long does delivery take?", a: "Most orders arrive in 2 to 5 working days. You get a tracking number once your parcel is booked." },
   { q: "How do I keep the shine?", a: "Keep it away from water, perfume and creams, wipe it with a soft dry cloth and store it in its box or a zip pouch." },
 ];
