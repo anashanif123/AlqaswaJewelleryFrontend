@@ -60,7 +60,7 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <PageHead title="Checkout" crumbs={[{ label: "Bag", href: "/cart" }, { label: "Checkout" }]} />
+      <PageHead title="Checkout" crumbs={[{ label: "Cart", href: "/cart" }, { label: "Checkout" }]} />
       <section className="wrap page">
         <form className="split" onSubmit={place}>
           <div className="stack">

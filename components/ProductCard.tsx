@@ -1,65 +1,64 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/data";
 import { imgUrl, type Product } from "@/lib/api";
-import { useStore } from "@/lib/store";
 import { Jewel } from "./Art";
 
-/** Product photo, or the gold line-art fallback when no image is uploaded. */
-export function ProductMedia({ p, className = "" }: { p: Pick<Product, "images" | "name" | "tone"> & { kind?: Product["category"]["kind"] }; className?: string }) {
+/** Product photo, or the line-art fallback when no image is uploaded. */
+export function ProductMedia({ p, className = "", w = 700 }: { p: Pick<Product, "images" | "name" | "tone"> & { kind?: Product["category"]["kind"] }; className?: string; w?: number }) {
   return p.images?.[0]
-    ? <img src={imgUrl(p.images[0])} alt={p.name} className={`media-img ${className}`} loading="lazy" />
+    ? <img src={imgUrl(p.images[0], w)} alt={p.name} className={`media-img ${className}`} loading="lazy" />
     : <Jewel kind={p.kind || "ring"} className={className} />;
 }
 
-export function Price({ p }: { p: Pick<Product, "price" | "compareAtPrice"> }) {
+export const onSale = (p: Pick<Product, "price" | "compareAtPrice">) => !!p.compareAtPrice && p.compareAtPrice > p.price;
+
+export function Price({ p, from = false }: { p: Pick<Product, "price" | "compareAtPrice">; from?: boolean }) {
+  const sale = onSale(p);
   return (
-    <span className="price">
-      {formatPrice(p.price)}
-      {p.compareAtPrice && p.compareAtPrice > p.price && <s className="price__was">{formatPrice(p.compareAtPrice)}</s>}
+    <span className={`price ${sale ? "price--sale" : ""}`}>
+      {sale && <><span className="sr">Regular price</span><s className="price__was">{formatPrice(p.compareAtPrice!)}</s><span className="sr">Sale price</span></>}
+      <span className="price__now">{from ? "From " : ""}{formatPrice(p.price)}</span>
     </span>
   );
 }
 
-export default function ProductCard({ p }: { p: Product }) {
-  const { add, wishlist, toggleWish } = useStore();
-  const [added, setAdded] = useState(false);
-  const saved = wishlist.includes(p._id);
-  const soldOut = p.stock <= 0;
-  const tag = soldOut ? "Sold out" : p.discountPercent ? `${p.discountPercent}% off` : p.tag;
+export function Stars({ rating, count, compact = false, bare = false }: { rating: number; count: number; compact?: boolean; bare?: boolean }) {
+  if (!count) return null;
+  const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+  return (
+    <span className="rate" aria-label={`${rating.toFixed(1)} out of 5 stars, ${count} reviews`}>
+      <span className="rate__stars" aria-hidden="true"><span style={{ width: `${pct}%` }}>★★★★★</span>★★★★★</span>
+      {!bare && <span className="rate__n">{compact ? `(${count})` : `${count} review${count === 1 ? "" : "s"}`}</span>}
+    </span>
+  );
+}
 
-  const onAdd = () => {
-    add(p);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1600);
-  };
+const MAX_OPTS = 8;
+
+export default function ProductCard({ p }: { p: Product }) {
+  const soldOut = p.stock <= 0;
+  const sale = onSale(p);
+  const badge = soldOut ? "Sold out" : sale ? "Sale" : p.tag;
+  const href = `/product/${p.slug}`;
+  const opts = p.sizes || [];
 
   return (
     <article className="card">
-      <div className={`card__media tone-${p.tone} ${p.images?.[0] ? "card__media--photo" : ""}`}>
-        {tag && <span className="card__tag">{tag}</span>}
-        <Link href={`/product/${p.slug}`} aria-label={p.name} className="card__link">
-          <ProductMedia p={{ ...p, kind: p.category?.kind }} />
-        </Link>
-        <button className={`card__wish ${saved ? "card__wish--on" : ""}`} aria-pressed={saved} aria-label={`${saved ? "Remove" : "Save"} ${p.name}`}
-          onClick={() => toggleWish(p._id).catch(() => {})}>
-          <svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" /></svg>
-        </button>
-      </div>
+      <Link href={href} className={`card__media tone-${p.tone} ${p.images?.[0] ? "card__media--photo" : ""}`} tabIndex={-1} aria-hidden="true">
+        <ProductMedia p={{ ...p, kind: p.category?.kind }} />
+        {p.images?.[1] && <img src={imgUrl(p.images[1], 700)} alt="" className="media-img card__alt" loading="lazy" />}
+        {badge && <span className={`card__badge ${soldOut ? "card__badge--out" : sale ? "" : "card__badge--tag"}`}>{badge}</span>}
+      </Link>
       <div className="card__body">
-        <h3><Link href={`/product/${p.slug}`}>{p.name}</Link></h3>
-        <p className="card__metal">{p.metal}</p>
-        <div className="card__row">
-          <Price p={p} />
-          {p.sizes?.length ? (
-            <Link className="btn btn--small" href={`/product/${p.slug}`}>Choose size</Link>
-          ) : (
-            <button className="btn btn--small" onClick={onAdd} disabled={soldOut}>
-              {soldOut ? "Sold out" : added ? "Added" : "Add to bag"}
-            </button>
-          )}
-        </div>
+        <h3><Link href={href}>{p.name}</Link></h3>
+        <Stars rating={p.rating} count={p.reviewCount} compact />
+        <Price p={p} />
+        {opts.length > 0 && (
+          <ul className="card__opts" aria-label="Available options">
+            {opts.slice(0, MAX_OPTS).map((o) => <li key={o}><Link href={`${href}?option=${encodeURIComponent(o)}`}>{o}</Link></li>)}
+            {opts.length > MAX_OPTS && <li><Link href={href} className="more">+{opts.length - MAX_OPTS}</Link></li>}
+          </ul>
+        )}
       </div>
     </article>
   );

@@ -14,12 +14,14 @@ export default function NewsletterForm() {
       setState((err as Error).message);
     }
   };
-  if (state === "done") return <p className="news__done">You are on the list. We will write when something new lands.</p>;
+  if (state === "done") return <p className="news__done">Thank you for subscribing. We will email you when new designs land.</p>;
   return (
     <form className="news__form" onSubmit={submit}>
-      <label htmlFor="email" className="sr">Email address</label>
-      <input id="email" name="email" type="email" placeholder="you@example.com" required />
-      <button className="btn" type="submit" disabled={state === "busy"}>{state === "busy" ? "…" : "Subscribe"}</button>
+      <label htmlFor="news-email" className="sr">Email</label>
+      <input id="news-email" name="email" type="email" placeholder="Email" required />
+      <button type="submit" aria-label="Subscribe" disabled={state === "busy"}>
+        <svg viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6" /></svg>
+      </button>
       {!["idle", "busy"].includes(state) && <p className="form-error">{state}</p>}
     </form>
   );

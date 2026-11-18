@@ -1,43 +1,59 @@
-// Content for the help / info pages (footer links). Edit the copy here.
+// Store copy: help / policy pages (footer links), product-page features and FAQs.
+// Please check the days, fees and rules below match how you actually work before going live.
+
+export const features = [
+  "Hand-finished with care",
+  "Premium quality polish",
+  "Easy exchange",
+  "Dedicated WhatsApp support",
+];
+
+export const faqs = [
+  { q: "Is this real gold?", a: "No. Our pieces are premium artificial jewellery with gold, silver or antique plating and zircon, kundan or pearl stones." },
+  { q: "Do you offer cash on delivery?", a: "Yes, cash on delivery is available all over Pakistan. You can also pay by bank transfer at checkout." },
+  { q: "How long does delivery take?", a: "Most orders arrive in 2 to 5 working days. You get a tracking number once your parcel is booked." },
+  { q: "How do I keep the shine?", a: "Keep it away from water, perfume and creams, wipe it with a soft dry cloth and store it in its box or a zip pouch." },
+];
+
 export const infoPages: Record<string, { title: string; kicker: string; sections: { h: string; p: string[] }[] }> = {
   "our-story": {
-    title: "Our story", kicker: "Designed and finished in Lahore",
+    title: "About us", kicker: "Premium artificial jewellery, delivered across Pakistan",
     sections: [
-      { h: "Where we began", p: ["Al Qaswa started in a small workshop in the old city, where our founders learned to draw gold by hand. The arches, crescents and jaali screens of Lahore still shape every piece we make."] },
-      { h: "How we work", p: ["Every design is sketched, cast and finished by our own karigars. We hallmark all of our gold and list the purity and weight on every piece, so you always know exactly what you are buying."] },
-      { h: "Made to be handed down", p: ["We build jewellery to be worn every day and passed on. That is why we resize for free for a year and offer a lifetime polish on anything bought from us."] },
+      { h: "Who we are", p: ["Al Qaswa brings you artificial jewellery that looks expensive without the price tag: earrings, bangles, rings, sets, bridal sets and pendants for every occasion."] },
+      { h: "How we choose", p: ["Every design is picked by hand and checked before it is packed. We photograph the real piece, so what you see is what arrives at your door."] },
+      { h: "Here to help", p: ["Not sure about a colour or size? Message us on WhatsApp and we will show you the piece live on a video call."] },
     ],
   },
   delivery: {
-    title: "Delivery", kicker: "Insured delivery across Pakistan",
+    title: "Shipping policy", kicker: "Delivery all over Pakistan",
     sections: [
-      { h: "How long it takes", p: ["Pieces in stock leave our studio within one working day. Lahore orders usually arrive the next day; the rest of Pakistan takes 2 to 5 working days."] },
-      { h: "Cost", p: ["A flat delivery fee is shown at checkout before you pay. Every parcel is insured until it reaches you."] },
-      { h: "Made-to-order pieces", p: ["Custom and bridal pieces take 3 to 6 weeks. We share progress photos and confirm the delivery date with you."] },
+      { h: "Delivery time", p: ["Orders are packed within one working day. Delivery usually takes 2 to 5 working days, depending on your city."] },
+      { h: "Delivery charges", p: ["The delivery fee is shown at checkout before you place your order. Orders above the free shipping amount ship free."] },
+      { h: "Cash on delivery", p: ["Pay in cash when your parcel arrives. Please write your complete address with house number, street and a nearby landmark so the rider can find you."] },
     ],
   },
   returns: {
-    title: "Returns & exchange", kicker: "7-day easy exchange",
+    title: "Return & exchange policy", kicker: "Easy exchange within 7 days",
     sections: [
-      { h: "Exchange within 7 days", p: ["Changed your mind? Send the piece back unworn, with its box and certificate, within 7 days of delivery and swap it for anything else in the store."] },
-      { h: "What cannot be exchanged", p: ["Engraved, resized or made-to-order pieces cannot be exchanged unless there is a fault."] },
-      { h: "Faults", p: ["If anything is wrong with your piece, tell us within 7 days and we will repair or replace it at no cost, including delivery both ways."] },
+      { h: "Exchange within 7 days", p: ["You can exchange a piece within 7 days of delivery. Tell us by call or WhatsApp first, then send it back unused in its original packing."] },
+      { h: "Damaged or wrong item", p: ["If your piece arrives damaged or different from what you ordered, tell us within 7 days and we will replace it at no cost."] },
+      { h: "What we cannot exchange", p: ["Used, scratched or altered pieces cannot be exchanged unless there is a fault."] },
     ],
   },
   "size-guide": {
-    title: "Ring size guide", kicker: "Find your fit at home",
+    title: "Size guide", kicker: "Find your ring and bangle size at home",
     sections: [
-      { h: "Measure a ring you own", p: ["Place a ring that fits well on a ruler and measure the inside diameter in millimetres.", "15.7 mm = size 5 · 16.5 mm = size 6 · 17.3 mm = size 7 · 18.1 mm = size 8 · 18.9 mm = size 9"] },
-      { h: "Measure your finger", p: ["Wrap a thin strip of paper around the base of your finger, mark where it meets and measure the length.", "49.3 mm = size 5 · 51.9 mm = size 6 · 54.4 mm = size 7 · 57 mm = size 8 · 59.5 mm = size 9"] },
-      { h: "Still not sure?", p: ["Choose the closest size. We resize for free for a year."] },
+      { h: "Rings", p: ["Measure the inside diameter of a ring that fits you well.", "15.7 mm = size 5 · 16.5 mm = size 6 · 17.3 mm = size 7 · 18.1 mm = size 8 · 18.9 mm = size 9"] },
+      { h: "Bangles", p: ["Measure the inside diameter of a bangle you wear.", "2.4 = 57 mm · 2.6 = 60 mm · 2.8 = 63.5 mm · 2.10 = 67 mm"] },
+      { h: "Still not sure?", p: ["Message us on WhatsApp and we will help you choose."] },
     ],
   },
   care: {
-    title: "Care for your gold", kicker: "Keep it shining for years",
+    title: "Jewellery care", kicker: "Keep the shine for longer",
     sections: [
-      { h: "Everyday care", p: ["Put jewellery on last, after perfume and creams, and take it off before swimming, exercise or cleaning."] },
-      { h: "Cleaning", p: ["Soak in warm water with a drop of mild soap, brush gently with a soft toothbrush and dry with a lint-free cloth. Pearls only need a soft, dry cloth."] },
-      { h: "Storage", p: ["Keep each piece in its own pouch so stones do not scratch the gold. Bring it to the studio any time for a free polish."] },
+      { h: "Everyday care", p: ["Put jewellery on last, after perfume, hairspray and creams. Take it off before washing hands, bathing, swimming or exercise."] },
+      { h: "Cleaning", p: ["Wipe gently with a soft, dry cloth after wearing. Do not use water, soap or polish liquids on plated jewellery."] },
+      { h: "Storage", p: ["Store each piece in its box or an airtight zip pouch, away from moisture, so the plating and stones stay bright."] },
     ],
   },
 };

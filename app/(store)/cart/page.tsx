@@ -18,13 +18,13 @@ export default function CartPage() {
 
   return (
     <>
-      <PageHead title="Your bag" crumbs={[{ label: "Bag" }]} />
+      <PageHead title="Your cart" />
       <section className="wrap page">
         {ready && cart.length === 0 ? (
           <div className="empty">
-            <h2>Your bag is empty</h2>
-            <p>Find something you will keep for years.</p>
-            <Link href="/shop" className="btn">Start shopping</Link>
+            <h2>Your cart is empty</h2>
+            <p>Browse our latest designs.</p>
+            <Link href="/shop" className="btn">Continue shopping</Link>
           </div>
         ) : (
           <div className="split">
@@ -36,7 +36,7 @@ export default function CartPage() {
                   </Link>
                   <div className="line__info">
                     <h3><Link href={`/product/${l.slug}`}>{l.name}</Link></h3>
-                    {l.size && <p className="muted">Size {l.size}</p>}
+                    {l.size && <p className="muted">{l.kind === "ring" || l.kind === "bangle" ? "Size" : "Colour"}: {l.size}</p>}
                     <div className="qty">
                       <button onClick={() => setQty(l.id, l.size, l.qty - 1)} aria-label="Less">−</button>
                       <span>{l.qty}</span>

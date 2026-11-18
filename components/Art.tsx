@@ -2,7 +2,7 @@ import type { Kind } from "@/lib/data";
 
 /** Al Qaswa wordmark: "al·q·aswa" where the q's bowl is a gold ring set with a stone (from public/ring/logo.svg). */
 export function Logo({ light = false, tagline = true }: { light?: boolean; tagline?: boolean }) {
-  const ink = light ? "#F6F2EA" : "#16392F";
+  const ink = light ? "#FFFFFF" : "#3D0007";
   return (
     <svg className="logo" viewBox="200 196 512 200" role="img" aria-label="Al Qaswa Jewellery">
       <defs>
@@ -13,11 +13,11 @@ export function Logo({ light = false, tagline = true }: { light?: boolean; tagli
       <circle cx="362" cy="276" r="36" fill="none" stroke="url(#lg-gold)" strokeWidth="17" />
       <path d="M362 214 L376 232 L362 250 L348 232 Z" fill="url(#lg-gold)" />
       <g fill={ink} style={{ fontFamily: "var(--body)", fontWeight: 600 }} fontSize="130" letterSpacing="-2">
-        <text x="210" y="320">al</text>
+        <text x="210" y="320" textLength="106" lengthAdjust="spacingAndGlyphs">al</text>
         <rect x="390" y="236" width="17" height="112" />
-        <text x="420" y="320">aswa</text>
+        <text x="420" y="320" textLength="282" lengthAdjust="spacingAndGlyphs">aswa</text>
       </g>
-      {tagline && <text x="702" y="388" textAnchor="end" fill={light ? "#EBD49A" : "#16392F"} style={{ fontFamily: "var(--body)" }} fontSize="22" letterSpacing="8">JEWELLERY</text>}
+      {tagline && <text x="702" y="388" textAnchor="end" fill={light ? "#EBD49A" : "#3D0007"} style={{ fontFamily: "var(--body)" }} fontSize="22" letterSpacing="8">JEWELLERY</text>}
     </svg>
   );
 }

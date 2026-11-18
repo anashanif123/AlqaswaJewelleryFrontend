@@ -16,20 +16,20 @@ export async function generateMetadata({ searchParams }: { searchParams: Promise
 export default async function ShopPage({ searchParams }: { searchParams: Promise<SP> }) {
   const sp = await searchParams;
   const page = Math.max(1, Number(sp.page) || 1);
-  const query = { q: sp.q, category: sp.category, sort: sp.sort, min: sp.min, max: sp.max, sale: sp.sale, inStock: sp.inStock, page, limit: 12 };
+  const query = { q: sp.q, category: sp.category, sort: sp.sort, min: sp.min, max: sp.max, sale: sp.sale, inStock: sp.inStock, page, limit: 24 };
 
   const [cats, res] = await Promise.all([
     safeApi<{ items: Category[] }>("/categories", { items: fallbackCats }),
     safeApi<Paged<Product> | null>(`/products${qs(query)}`, null),
   ]);
   const cat = cats.items.find((c) => c.slug === sp.category);
-  const title = sp.q ? `Results for “${sp.q}”` : cat?.name ?? "All jewellery";
+  const title = sp.q ? `Results for “${sp.q}”` : cat?.name
+    ?? (sp.sale ? "Sale" : sp.max && !sp.min ? `Under Rs ${Number(sp.max).toLocaleString("en-PK")}` : sp.sort === "popular" ? "Best Sellers" : sp.sort === "new" ? "New Arrivals" : "All products");
   const pageLink = (n: number) => `/shop${qs({ ...query, limit: undefined, page: n > 1 ? n : undefined })}`;
 
   return (
     <>
-      <PageHead title={title} kicker={cat?.description ?? "Hallmarked gold, finished by hand in Lahore"}
-        crumbs={[{ label: "Shop", href: cat || sp.q ? "/shop" : undefined }, ...(cat ? [{ label: cat.name }] : [])]} />
+      <PageHead title={title} kicker={cat?.description} />
 
       <section className="wrap listing">
         <ShopFilters categories={cats.items} total={res?.total ?? 0} />
@@ -38,9 +38,9 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
           <div className="empty"><h2>We could not load the collection</h2><p>Please refresh in a moment.</p></div>
         ) : res.items.length === 0 ? (
           <div className="empty">
-            <h2>Nothing matches yet</h2>
-            <p>Try another category or clear the filters.</p>
-            <Link href="/shop" className="btn">See everything</Link>
+            <h2>No products found</h2>
+            <p>Use fewer filters or remove all.</p>
+            <Link href="/shop" className="btn">Remove all</Link>
           </div>
         ) : (
           <div className="grid">{res.items.map((p) => <ProductCard key={p._id} p={p} />)}</div>
@@ -48,11 +48,11 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
 
         {res && res.pages > 1 && (
           <nav className="pager" aria-label="Pages">
-            {page > 1 && <Link className="chip" href={pageLink(page - 1)}>Previous</Link>}
+            {page > 1 && <Link href={pageLink(page - 1)} aria-label="Previous page">‹</Link>}
             {Array.from({ length: res.pages }, (_, i) => i + 1).map((n) => (
-              <Link key={n} href={pageLink(n)} className={`chip ${n === page ? "chip--on" : ""}`} aria-current={n === page ? "page" : undefined}>{n}</Link>
+              <Link key={n} href={pageLink(n)} className={n === page ? "on" : ""} aria-current={n === page ? "page" : undefined}>{n}</Link>
             ))}
-            {page < res.pages && <Link className="chip" href={pageLink(page + 1)}>Next</Link>}
+            {page < res.pages && <Link href={pageLink(page + 1)} aria-label="Next page">›</Link>}
           </nav>
         )}
       </section>

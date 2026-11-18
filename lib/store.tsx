@@ -13,6 +13,9 @@ type Store = {
   settings: Settings | null;
   cart: CartLine[];
   count: number;
+  subtotal: number;
+  drawer: boolean;
+  setDrawer: (open: boolean) => void;
   add: (p: Product, qty?: number, size?: string) => void;
   setQty: (id: string, size: string | undefined, qty: number) => void;
   remove: (id: string, size?: string) => void;
@@ -40,6 +43,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [settings, setSettings] = useState<Settings | null>(null);
   const [cart, setCart] = useState<CartLine[]>([]);
   const [localWish, setLocalWish] = useState<string[]>([]);
+  const [drawer, setDrawer] = useState(false);
 
   const refreshUser = useCallback(async () => {
     if (!getToken()) return setUser(null);
@@ -59,14 +63,16 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<Store>(() => {
     const wishlist = user ? user.wishlist.map(String) : localWish;
     return {
-      ready, user, settings, cart, wishlist,
+      ready, user, settings, cart, wishlist, drawer, setDrawer,
       count: cart.reduce((s, l) => s + l.qty, 0),
+      subtotal: cart.reduce((s, l) => s + l.qty * l.price, 0),
       add: (p, qty = 1, size) => {
         const hit = cart.find((l) => same(l, p._id, size));
         saveCart(hit
           ? cart.map((l) => (l === hit ? { ...l, qty: Math.min(l.qty + qty, p.stock || 20) } : l))
           : [...cart, { id: p._id, slug: p.slug, name: p.name, price: p.price, kind: p.category?.kind || "ring", tone: p.tone, image: p.images?.[0], size, qty, stock: p.stock }]);
         window.dispatchEvent(new Event("bag:add"));
+        setDrawer(true);
       },
       setQty: (id, size, qty) => saveCart(cart.map((l) => (same(l, id, size) ? { ...l, qty: Math.max(1, Math.min(qty, l.stock || 20)) } : l))),
       remove: (id, size) => saveCart(cart.filter((l) => !same(l, id, size))),
@@ -87,7 +93,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       logout: () => (setToken(null), setUser(null)),
       refreshUser,
     };
-  }, [ready, user, settings, cart, localWish, refreshUser]);
+  }, [ready, user, settings, cart, localWish, drawer, refreshUser]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

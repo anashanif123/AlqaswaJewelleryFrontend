@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { api, dateFmt } from "@/lib/api";
 import { useStore } from "@/lib/store";
+import { Stars } from "./ProductCard";
 
 type Review = { _id: string; name: string; rating: number; comment?: string; createdAt: string };
 
@@ -26,17 +27,16 @@ export default function Reviews({ productId, rating, count }: { productId: strin
   };
 
   return (
-    <section className="reviews wrap">
-      <div className="section-head">
-        <h2>What customers say</h2>
-        {count > 0 && <p className="stars">{"★".repeat(Math.round(rating))}<span>{rating} from {count} reviews</span></p>}
-      </div>
-      {items.length === 0 && <p className="muted">No reviews yet. Bought this piece? Tell others what you think.</p>}
+    <section className="reviews wrap" id="reviews">
+      <h2 className="title center">Customer Reviews</h2>
+      {count > 0 && <p className="happy__avg"><Stars rating={rating} count={count} /></p>}
+      {items.length === 0 && <p className="muted center">No reviews yet. Bought this piece? Be the first to review it.</p>}
       <div className="reviews__list">
         {items.map((r) => (
           <article key={r._id} className="review">
-            <p className="stars">{"★".repeat(r.rating)}<span>{r.name} · {dateFmt(r.createdAt)}</span></p>
+            <div className="review__top"><b>{r.name}</b><Stars rating={r.rating} count={1} bare /></div>
             {r.comment && <p>{r.comment}</p>}
+            <small className="muted">{dateFmt(r.createdAt)}</small>
           </article>
         ))}
       </div>
@@ -52,7 +52,7 @@ export default function Reviews({ productId, rating, count }: { productId: strin
           {state && <p className="note">{state}</p>}
         </form>
       ) : (
-        <p className="muted"><Link href="/account" className="link">Log in</Link> to write a review.</p>
+        <p className="muted center"><Link href="/account" className="link">Log in</Link> to write a review.</p>
       )}
     </section>
   );

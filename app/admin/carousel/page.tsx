@@ -5,10 +5,10 @@ import { Jewel } from "@/components/Art";
 import { imgUrl, type Slide } from "@/lib/api";
 
 const fields: Field[] = [
-  { name: "image", label: "Desktop photo — wide, at least 2000 × 900 px. Keep the left side calm: the text sits there.", type: "image" },
-  { name: "mobileImage", label: "Phone photo (optional) — portrait, about 900 × 1400 px. Text sits at the bottom.", type: "image" },
+  { name: "image", label: "Desktop banner — wide, about 1920 × 640 px. Put your text inside the banner image; the whole banner links to the button link.", type: "image" },
+  { name: "mobileImage", label: "Phone banner (optional) — about 900 × 900 px.", type: "image" },
   { name: "kicker", label: "Small line above the heading", placeholder: "New collection" },
-  { name: "title", label: "Heading", required: true, placeholder: "Eid edit, now in store" },
+  { name: "title", label: "Heading (shown when there is no banner image; used as image description)", required: true, placeholder: "Eid edit, now in store" },
   { name: "subtitle", label: "Text under the heading", type: "textarea" },
   { name: "ctaLabel", label: "Button text", placeholder: "Shop now" },
   { name: "ctaLink", label: "Button link", placeholder: "/shop?category=rings", hint: "A page on this site like /shop, /bridal, /product/noor-solitaire-ring" },
@@ -21,7 +21,7 @@ const fields: Field[] = [
 export default function CarouselAdmin() {
   return (
     <div className="stack">
-      <p className="note">Slides appear in the big banner at the top of the home page. Until you add one, three built-in slides are shown.</p>
+      <p className="note">Banners appear at the top of the home page. Until you add one, two built-in text banners are shown.</p>
       <Resource<Slide>
         title="Home carousel" path="slides" fields={fields}
         columns={[

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import PageHead from "@/components/PageHead";
 import ProductCard from "@/components/ProductCard";
 import ProductBuy from "@/components/ProductBuy";
 import Reviews from "@/components/Reviews";
@@ -21,14 +20,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
-      <PageHead title={p.name} kicker={p.metal}
-        crumbs={[{ label: "Shop", href: "/shop" }, { label: p.category.name, href: `/shop?category=${p.category.slug}` }, { label: p.name }]} />
       <ProductBuy p={p} />
       <Reviews productId={p._id} rating={p.rating} count={p.reviewCount} />
       {related.length > 0 && (
-        <section className="shop wrap related">
-          <div className="section-head"><h2>You may also like</h2></div>
-          <div className="grid">{related.map((r) => <ProductCard key={r._id} p={r} />)}</div>
+        <section className="block wrap">
+          <h2 className="title">You may also like</h2>
+          <ul className="rail rail--grid">{related.slice(0, 4).map((r) => <li key={r._id}><ProductCard p={r} /></li>)}</ul>
         </section>
       )}
     </>
