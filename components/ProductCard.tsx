@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/data";
 import { imgUrl, type Product } from "@/lib/api";
 import { Jewel } from "./Art";
+import { cleanOptions } from "@/lib/options";
 
 /** Product photo, or the line-art fallback when no image is uploaded. */
 export function ProductMedia({ p, className = "", w = 700 }: { p: Pick<Product, "images" | "name" | "tone"> & { kind?: Product["category"]["kind"] }; className?: string; w?: number }) {
@@ -40,7 +41,7 @@ export default function ProductCard({ p }: { p: Product }) {
   const sale = onSale(p);
   const badge = soldOut ? "Sold out" : sale ? "Sale" : p.tag;
   const href = `/product/${p.slug}`;
-  const opts = p.sizes || [];
+  const opts = cleanOptions(p.sizes);
 
   return (
     <article className="card">

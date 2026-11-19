@@ -7,6 +7,7 @@ import { useStore } from "@/lib/store";
 import { formatPrice } from "@/lib/data";
 import { faqs, features, infoPages } from "@/lib/pages";
 import { Jewel } from "./Art";
+import { cleanOptions } from "@/lib/options";
 import { Price, Stars, onSale } from "./ProductCard";
 
 /** Real sale end date for the countdown, e.g. NEXT_PUBLIC_SALE_ENDS=2026-12-01T23:59:00+05:00. No date set = no countdown. */
@@ -67,8 +68,9 @@ export default function ProductBuy({ p }: { p: Product }) {
   const { add, wishlist, toggleWish, settings } = useStore();
   const router = useRouter();
   const sp = useSearchParams();
+  const opts = cleanOptions(p.sizes);
   const [img, setImg] = useState(0);
-  const [size, setSize] = useState(() => { const o = sp.get("option"); return o && p.sizes.includes(o) ? o : p.sizes[0] || ""; });
+  const [size, setSize] = useState(() => { const o = sp.get("option"); return o && opts.includes(o) ? o : opts[0] || ""; });
   const [qty, setQty] = useState(1);
   const [when, setWhen] = useState("");
   const [url, setUrl] = useState("");
@@ -111,11 +113,11 @@ export default function ProductBuy({ p }: { p: Product }) {
         </div>
         <p className="pdp__ship"><Link href="/help/delivery">Shipping</Link> calculated at checkout.</p>
 
-        {p.sizes.length > 0 && (
+        {opts.length > 0 && (
           <fieldset className="opt">
             <legend>{optLabel}{kind === "ring" && <Link href="/help/size-guide">Size guide</Link>}</legend>
             <div className="chips">
-              {p.sizes.map((s) => (
+              {opts.map((s) => (
                 <button key={s} type="button" className={`chip ${size === s ? "chip--on" : ""}`} aria-pressed={size === s} onClick={() => setSize(s)}>{s}</button>
               ))}
             </div>
