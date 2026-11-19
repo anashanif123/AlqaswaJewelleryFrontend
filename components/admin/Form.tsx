@@ -93,6 +93,16 @@ function Images({ value, onChange }: { value: string[]; onChange: (v: string[]) 
   );
 }
 
+/** Comma-separated list. Keeps what you type (commas and spaces) and saves the cleaned list. */
+function Tags({ common, value, onChange }: { common: Record<string, unknown>; value: string[]; onChange: (v: string[]) => void }) {
+  const [text, setText] = useState(value.join(", "));
+  return (
+    <input {...common} value={text}
+      onChange={(e) => { setText(e.target.value); onChange(e.target.value.split(",").map((s) => s.trim()).filter(Boolean)); }}
+      onBlur={() => setText(value.join(", "))} />
+  );
+}
+
 export default function Form({ fields, initial, onSubmit, submitLabel = "Save" }: {
   fields: Field[]; initial?: Record<string, any> | null; onSubmit: (body: Record<string, any>) => Promise<void>; submitLabel?: string;
 }) {
@@ -123,7 +133,7 @@ export default function Form({ fields, initial, onSubmit, submitLabel = "Save" }
             {(f.type === "select" || f.type === "multiselect") && <Options f={f} value={v} onChange={(x) => set(f.name, x)} />}
             {f.type === "images" && <Images value={v} onChange={(x) => set(f.name, x)} />}
             {f.type === "image" && <Images value={v ? [v] : []} onChange={(x) => set(f.name, x[x.length - 1] || "")} />}
-            {f.type === "tags" && <input {...common} value={v.join(", ")} onChange={(e) => set(f.name, e.target.value.split(",").map((s) => s.trim()).filter(Boolean))} />}
+            {f.type === "tags" && <Tags common={common} value={v} onChange={(x) => set(f.name, x)} />}
             {(!f.type || ["text", "number", "date", "password"].includes(f.type)) && (
               <input {...common} type={f.type || "text"} step={f.type === "number" ? "any" : undefined} value={v} onChange={(e) => set(f.name, e.target.value)} />
             )}

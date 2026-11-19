@@ -5,12 +5,12 @@ export const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:500
 export type Category = { _id: string; name: string; slug: string; kind: Kind; description?: string; image?: string; count?: number; sort?: number; active?: boolean };
 export type Product = {
   _id: string; name: string; slug: string; category: Category; metal?: string; weight?: string; sku?: string; description?: string;
-  price: number; compareAtPrice?: number; discountPercent: number; stock: number; sizes: string[]; images: string[];
+  price: number; compareAtPrice?: number; discountPercent: number; stock: number; sizes: string[]; colors?: string[]; images: string[];
   tag?: string; tone: "emerald" | "rose" | "night"; featured?: boolean; active?: boolean; rating: number; reviewCount: number; sold?: number;
 };
 export type Address = { _id?: string; label?: string; name: string; phone: string; line1: string; line2?: string; city: string; province?: string; postalCode?: string };
 export type User = { _id: string; name: string; email: string; phone?: string; role: "customer" | "admin"; blocked?: boolean; addresses: Address[]; wishlist: string[]; createdAt?: string };
-export type OrderItem = { product: string; name: string; slug: string; image?: string; kind?: Kind; size?: string; price: number; qty: number };
+export type OrderItem = { product: string; name: string; slug: string; image?: string; kind?: Kind; size?: string; color?: string; price: number; qty: number };
 export type Order = {
   _id: string; number: string; user?: string | { name: string; email: string }; email?: string; items: OrderItem[]; shippingAddress: Address; note?: string;
   subtotal: number; discount: number; couponCode?: string; shipping: number; total: number;

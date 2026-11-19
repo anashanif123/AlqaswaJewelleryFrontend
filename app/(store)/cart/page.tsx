@@ -5,7 +5,7 @@ import PageHead from "@/components/PageHead";
 import Summary from "@/components/Summary";
 import { ProductMedia } from "@/components/ProductCard";
 import { useQuote } from "@/components/useQuote";
-import { useStore } from "@/lib/store";
+import { lineKey, lineOptions, useStore } from "@/lib/store";
 import { formatPrice } from "@/lib/data";
 
 export default function CartPage() {
@@ -30,22 +30,22 @@ export default function CartPage() {
           <div className="split">
             <ul className="lines">
               {cart.map((l) => (
-                <li key={l.id + (l.size || "")} className="line">
+                <li key={lineKey(l)} className="line">
                   <Link href={`/product/${l.slug}`} className={`line__media card__media tone-${l.tone}`}>
                     <ProductMedia p={{ name: l.name, tone: l.tone, kind: l.kind, images: l.image ? [l.image] : [] }} />
                   </Link>
                   <div className="line__info">
                     <h3><Link href={`/product/${l.slug}`}>{l.name}</Link></h3>
-                    {l.size && <p className="muted">{l.kind === "ring" || l.kind === "bangle" ? "Size" : "Colour"}: {l.size}</p>}
+                    {lineOptions(l) && <p className="muted">{lineOptions(l)}</p>}
                     <div className="qty">
-                      <button onClick={() => setQty(l.id, l.size, l.qty - 1)} aria-label="Less">−</button>
+                      <button onClick={() => setQty(lineKey(l), l.qty - 1)} aria-label="Less">−</button>
                       <span>{l.qty}</span>
-                      <button onClick={() => setQty(l.id, l.size, l.qty + 1)} aria-label="More">+</button>
+                      <button onClick={() => setQty(lineKey(l), l.qty + 1)} aria-label="More">+</button>
                     </div>
                   </div>
                   <div className="line__end">
                     <span className="price">{formatPrice(l.price * l.qty)}</span>
-                    <button className="linkish" onClick={() => remove(l.id, l.size)}>Remove</button>
+                    <button className="linkish" onClick={() => remove(lineKey(l))}>Remove</button>
                   </div>
                 </li>
               ))}

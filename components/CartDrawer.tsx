@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useStore } from "@/lib/store";
+import { lineKey, lineOptions, useStore } from "@/lib/store";
 import { formatPrice } from "@/lib/data";
 import { ProductMedia } from "./ProductCard";
 
@@ -49,21 +49,21 @@ export default function CartDrawer() {
             <div className="cdrawer__cols"><span>Product</span><span>Total</span></div>
             <ul className="cdrawer__lines">
               {cart.map((l) => (
-                <li key={l.id + (l.size || "")} className="dline">
+                <li key={lineKey(l)} className="dline">
                   <Link href={`/product/${l.slug}`} className="dline__media">
                     <ProductMedia p={{ name: l.name, tone: l.tone, kind: l.kind, images: l.image ? [l.image] : [] }} />
                   </Link>
                   <div className="dline__info">
                     <Link href={`/product/${l.slug}`} className="dline__name">{l.name}</Link>
                     <span className="dline__price">{formatPrice(l.price)}</span>
-                    {l.size && <span className="dline__opt">{l.kind === "ring" || l.kind === "bangle" ? "Size" : "Colour"}: {l.size}</span>}
+                    {lineOptions(l) && <span className="dline__opt">{lineOptions(l)}</span>}
                     <div className="dline__row">
                       <div className="qty qty--sm">
-                        <button onClick={() => setQty(l.id, l.size, l.qty - 1)} aria-label={`Decrease quantity for ${l.name}`}>−</button>
+                        <button onClick={() => setQty(lineKey(l), l.qty - 1)} aria-label={`Decrease quantity for ${l.name}`}>−</button>
                         <span>{l.qty}</span>
-                        <button onClick={() => setQty(l.id, l.size, l.qty + 1)} aria-label={`Increase quantity for ${l.name}`}>+</button>
+                        <button onClick={() => setQty(lineKey(l), l.qty + 1)} aria-label={`Increase quantity for ${l.name}`}>+</button>
                       </div>
-                      <button className="icon-btn dline__del" onClick={() => remove(l.id, l.size)} aria-label={`Remove ${l.name}`}>
+                      <button className="icon-btn dline__del" onClick={() => remove(lineKey(l))} aria-label={`Remove ${l.name}`}>
                         <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6" /></svg>
                       </button>
                     </div>

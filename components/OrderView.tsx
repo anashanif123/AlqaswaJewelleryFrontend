@@ -2,6 +2,7 @@ import Link from "next/link";
 import { formatPrice } from "@/lib/data";
 import { dateFmt, type Order } from "@/lib/api";
 import { ProductMedia } from "./ProductCard";
+import { lineOptions } from "@/lib/options";
 
 const steps = ["pending", "confirmed", "processing", "shipped", "delivered"];
 export const statusLabel = (s: string) => s[0].toUpperCase() + s.slice(1);
@@ -25,7 +26,7 @@ export default function OrderView({ o }: { o: Order }) {
               <Link href={`/product/${l.slug}`} className="line__media card__media tone-emerald">
                 <ProductMedia p={{ name: l.name, tone: "emerald", kind: l.kind, images: l.image ? [l.image] : [] }} />
               </Link>
-              <div className="line__info"><h3>{l.name}</h3><p className="muted">{l.size && `Size ${l.size} · `}Qty {l.qty}</p></div>
+              <div className="line__info"><h3>{l.name}</h3><p className="muted">{lineOptions(l) && `${lineOptions(l)} · `}Qty {l.qty}</p></div>
               <div className="line__end"><span className="price">{formatPrice(l.price * l.qty)}</span></div>
             </li>
           ))}

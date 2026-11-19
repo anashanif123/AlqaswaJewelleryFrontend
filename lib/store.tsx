@@ -1,10 +1,11 @@
 "use client";
+import { lineKey } from "./options";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api, getToken, setToken, type Product, type Settings, type User } from "./api";
 
 export type CartLine = {
   id: string; slug: string; name: string; price: number; kind: Product["category"]["kind"]; tone: Product["tone"];
-  image?: string; size?: string; qty: number; stock: number;
+  image?: string; size?: string; color?: string; qty: number; stock: number;
 };
 
 type Store = {
@@ -16,9 +17,9 @@ type Store = {
   subtotal: number;
   drawer: boolean;
   setDrawer: (open: boolean) => void;
-  add: (p: Product, qty?: number, size?: string) => void;
-  setQty: (id: string, size: string | undefined, qty: number) => void;
-  remove: (id: string, size?: string) => void;
+  add: (p: Product, qty?: number, size?: string, color?: string) => void;
+  setQty: (key: string, qty: number) => void;
+  remove: (key: string) => void;
   clear: () => void;
   wishlist: string[];
   toggleWish: (id: string) => Promise<boolean>;
@@ -36,6 +37,8 @@ const read = <T,>(k: string, d: T): T => {
 const write = (k: string, v: unknown) => {
   try { localStorage.setItem(k, JSON.stringify(v)); } catch {}
 };
+
+export { lineKey, lineOptions } from "./options";
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
@@ -58,7 +61,7 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   }, [refreshUser]);
 
   const saveCart = (next: CartLine[]) => (setCart(next), write(CART_KEY, next));
-  const same = (l: CartLine, id: string, size?: string) => l.id === id && (l.size || "") === (size || "");
+  const same = (l: CartLine, key: string) => lineKey(l) === key;
 
   const value = useMemo<Store>(() => {
     const wishlist = user ? user.wishlist.map(String) : localWish;
@@ -66,16 +69,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       ready, user, settings, cart, wishlist, drawer, setDrawer,
       count: cart.reduce((s, l) => s + l.qty, 0),
       subtotal: cart.reduce((s, l) => s + l.qty * l.price, 0),
-      add: (p, qty = 1, size) => {
-        const hit = cart.find((l) => same(l, p._id, size));
+      add: (p, qty = 1, size, color) => {
+        const key = lineKey({ id: p._id, size, color });
+        const hit = cart.find((l) => same(l, key));
         saveCart(hit
           ? cart.map((l) => (l === hit ? { ...l, qty: Math.min(l.qty + qty, p.stock || 20) } : l))
-          : [...cart, { id: p._id, slug: p.slug, name: p.name, price: p.price, kind: p.category?.kind || "ring", tone: p.tone, image: p.images?.[0], size, qty, stock: p.stock }]);
+          : [...cart, { id: p._id, slug: p.slug, name: p.name, price: p.price, kind: p.category?.kind || "ring", tone: p.tone, image: p.images?.[0], size, color, qty, stock: p.stock }]);
         window.dispatchEvent(new Event("bag:add"));
         setDrawer(true);
       },
-      setQty: (id, size, qty) => saveCart(cart.map((l) => (same(l, id, size) ? { ...l, qty: Math.max(1, Math.min(qty, l.stock || 20)) } : l))),
-      remove: (id, size) => saveCart(cart.filter((l) => !same(l, id, size))),
+      setQty: (key, qty) => saveCart(cart.map((l) => (same(l, key) ? { ...l, qty: Math.max(1, Math.min(qty, l.stock || 20)) } : l))),
+      remove: (key) => saveCart(cart.filter((l) => !same(l, key))),
       clear: () => saveCart([]),
       toggleWish: async (id) => {
         if (user) {

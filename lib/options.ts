@@ -15,3 +15,9 @@ export function cleanOptions(list: string[] = []): string[] {
   }
   return out;
 }
+
+/** Same product in another size or colour is its own cart line. */
+export const lineKey = (l: { id: string; size?: string; color?: string }) => `${l.id}|${l.size || ""}|${l.color || ""}`;
+
+/** "Size 2.6 · Golden" for cart and order lines. */
+export const lineOptions = (l: { size?: string; color?: string }) => [l.size && `Size ${l.size}`, l.color].filter(Boolean).join(" · ");

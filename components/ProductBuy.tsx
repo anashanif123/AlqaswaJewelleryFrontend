@@ -68,9 +68,11 @@ export default function ProductBuy({ p }: { p: Product }) {
   const { add, wishlist, toggleWish, settings } = useStore();
   const router = useRouter();
   const sp = useSearchParams();
-  const opts = cleanOptions(p.sizes);
+  const sizes = cleanOptions(p.sizes);
+  const colors = cleanOptions(p.colors);
   const [img, setImg] = useState(0);
-  const [size, setSize] = useState(() => { const o = sp.get("option"); return o && opts.includes(o) ? o : opts[0] || ""; });
+  const [size, setSize] = useState(() => { const o = sp.get("size") || sp.get("option"); return o && sizes.includes(o) ? o : sizes[0] || ""; });
+  const [color, setColor] = useState(() => { const o = sp.get("color"); return o && colors.includes(o) ? o : colors[0] || ""; });
   const [qty, setQty] = useState(1);
   const [when, setWhen] = useState("");
   const [url, setUrl] = useState("");
@@ -78,14 +80,13 @@ export default function ProductBuy({ p }: { p: Product }) {
   const saved = wishlist.includes(p._id);
   const soldOut = p.stock <= 0;
   const kind = p.category?.kind;
-  const optLabel = kind === "ring" || kind === "bangle" ? "Size" : "Colour";
   const wa = settings?.whatsapp;
 
   const buy = (go: boolean) => {
-    add(p, qty, size || undefined);
+    add(p, qty, size || undefined, color || undefined);
     if (go) router.push("/checkout");
   };
-  const waText = encodeURIComponent(`Hi Al Qaswa! I want to see this on a live video call:\n${p.name}${size ? ` (${size})` : ""}\n${url}`);
+  const waText = encodeURIComponent(`Hi Al Qaswa! I want to see this on a live video call:\n${p.name}${[size, color].filter(Boolean).length ? ` (${[size && `Size ${size}`, color].filter(Boolean).join(", ")})` : ""}\n${url}`);
 
   return (
     <section className="pdp wrap">
@@ -113,11 +114,22 @@ export default function ProductBuy({ p }: { p: Product }) {
         </div>
         <p className="pdp__ship"><Link href="/help/delivery">Shipping</Link> calculated at checkout.</p>
 
-        {opts.length > 0 && (
+        {colors.length > 0 && (
           <fieldset className="opt">
-            <legend>{optLabel}{kind === "ring" && <Link href="/help/size-guide">Size guide</Link>}</legend>
+            <legend>Colour</legend>
             <div className="chips">
-              {opts.map((s) => (
+              {colors.map((c) => (
+                <button key={c} type="button" className={`chip ${color === c ? "chip--on" : ""}`} aria-pressed={color === c} onClick={() => setColor(c)}>{c}</button>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        {sizes.length > 0 && (
+          <fieldset className="opt">
+            <legend>Size{(kind === "ring" || kind === "bangle") && <Link href="/help/size-guide">Size guide</Link>}</legend>
+            <div className="chips">
+              {sizes.map((s) => (
                 <button key={s} type="button" className={`chip ${size === s ? "chip--on" : ""}`} aria-pressed={size === s} onClick={() => setSize(s)}>{s}</button>
               ))}
             </div>

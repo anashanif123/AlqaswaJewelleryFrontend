@@ -41,7 +41,10 @@ export default function ProductCard({ p }: { p: Product }) {
   const sale = onSale(p);
   const badge = soldOut ? "Sold out" : sale ? "Sale" : p.tag;
   const href = `/product/${p.slug}`;
-  const opts = cleanOptions(p.sizes);
+  // Colours are shown under the card when set, otherwise sizes.
+  const colors = cleanOptions(p.colors);
+  const opts = colors.length ? colors : cleanOptions(p.sizes);
+  const param = colors.length ? "color" : "size";
 
   return (
     <article className="card">
@@ -56,7 +59,7 @@ export default function ProductCard({ p }: { p: Product }) {
         <Price p={p} />
         {opts.length > 0 && (
           <ul className="card__opts" aria-label="Available options">
-            {opts.slice(0, MAX_OPTS).map((o) => <li key={o}><Link href={`${href}?option=${encodeURIComponent(o)}`}>{o}</Link></li>)}
+            {opts.slice(0, MAX_OPTS).map((o) => <li key={o}><Link href={`${href}?${param}=${encodeURIComponent(o)}`}>{o}</Link></li>)}
             {opts.length > MAX_OPTS && <li><Link href={href} className="more">+{opts.length - MAX_OPTS}</Link></li>}
           </ul>
         )}

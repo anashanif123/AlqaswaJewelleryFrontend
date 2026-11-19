@@ -6,7 +6,7 @@ import PageHead from "@/components/PageHead";
 import Summary from "@/components/Summary";
 import { useQuote } from "@/components/useQuote";
 import { api, type Address, type Order } from "@/lib/api";
-import { useStore } from "@/lib/store";
+import { lineKey, lineOptions, useStore } from "@/lib/store";
 
 const provinces = ["Punjab", "Sindh", "Khyber Pakhtunkhwa", "Balochistan", "Islamabad Capital Territory", "Gilgit-Baltistan", "Azad Kashmir"];
 const blank: Address = { name: "", phone: "", line1: "", line2: "", city: "", province: "Punjab", postalCode: "" };
@@ -42,7 +42,7 @@ export default function CheckoutPage() {
     try {
       const { _id, label, ...shippingAddress } = addr;
       const { order } = await api<{ order: Order }>("/orders", {
-        body: { items: cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size })), coupon: coupon || undefined, email: email || undefined, paymentMethod: "cod", note: note || undefined, shippingAddress },
+        body: { items: cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size, color: l.color })), coupon: coupon || undefined, email: email || undefined, paymentMethod: "cod", note: note || undefined, shippingAddress },
       });
       if (user && save && !_id && !user.addresses.some((a) => a.line1 === addr.line1)) {
         await api("/auth/me/addresses", { body: { ...shippingAddress, label: "Home" } }).then(refreshUser).catch(() => {});
@@ -101,7 +101,7 @@ export default function CheckoutPage() {
           <aside>
             <Summary q={quote}>
               <ul className="mini">
-                {cart.map((l) => <li key={l.id + (l.size || "")}><span>{l.name}{l.size && ` · ${l.size}`} × {l.qty}</span></li>)}
+                {cart.map((l) => <li key={lineKey(l)}><span>{l.name}{lineOptions(l) && ` · ${lineOptions(l)}`} × {l.qty}</span></li>)}
               </ul>
               {(error || quoteError) && <p className="form-error">{error || quoteError}</p>}
               <button className="btn btn--gold btn--block" type="submit" disabled={busy || !quote}>{busy ? "Placing order…" : "Place order"}</button>

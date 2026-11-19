@@ -9,11 +9,11 @@ export type Quote = { subtotal: number; discount: number; couponCode: string | n
 export function useQuote(cart: CartLine[], coupon: string) {
   const [quote, setQuote] = useState<Quote | null>(null);
   const [error, setError] = useState("");
-  const key = JSON.stringify(cart.map((l) => [l.id, l.qty, l.size])) + coupon;
+  const key = JSON.stringify(cart.map((l) => [l.id, l.qty, l.size, l.color])) + coupon;
 
   useEffect(() => {
     if (!cart.length) return setQuote(null);
-    const items = cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size }));
+    const items = cart.map((l) => ({ product: l.id, qty: l.qty, size: l.size, color: l.color }));
     api<Quote>("/cart/quote", { body: { items, coupon: coupon || undefined } })
       .then((q) => (setQuote(q), setError("")))
       .catch((e) => setError(e.message));
